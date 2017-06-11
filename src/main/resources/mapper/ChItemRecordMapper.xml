@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sic.mapper.ChItemRecordMapper">
+  <resultMap id="BaseResultMap" type="com.sic.entity.ChItemRecord">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="TASK_RECORD_ID" jdbcType="VARCHAR" property="taskRecordId" />
+    <result column="FORM_ITEM_ID" jdbcType="VARCHAR" property="formItemId" />
+    <result column="CONTENT_INT" jdbcType="DECIMAL" property="contentInt" />
+    <result column="CONTENT_STRING" jdbcType="VARCHAR" property="contentString" />
+    <result column="CONTENT_TIMESTAMP" jdbcType="TIMESTAMP" property="contentTimestamp" />
+    <result column="PASS_FLAG" jdbcType="VARCHAR" property="passFlag" />
+    <result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="FILE_IDS" jdbcType="VARCHAR" property="fileIds" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, TASK_RECORD_ID, FORM_ITEM_ID, CONTENT_INT, CONTENT_STRING, CONTENT_TIMESTAMP, 
+    PASS_FLAG, REMARKS, CONTENT, FILE_IDS
+  </sql>
+  <select id="select" parameterType="com.sic.entity.ChTaskRecord" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CH_ITEM_RECORD
+    where TASK_RECORD_ID in (select 
+    ID
+    from CH_TASK_RECORD
+    where OFFICE_ID=#{officeId,jdbcType=VARCHAR}
+     AND IS_SYNC='0' 
+     and STATUS=#{status,jdbcType=VARCHAR} 
+     and PROC_INS_ID  is not null)
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from CH_ITEM_RECORD
+    where
+    ID =#{id,jdbcType=VARCHAR}
+
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Object">
+    delete from CH_ITEM_RECORD
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sic.entity.ChItemRecord">
+    insert into CH_ITEM_RECORD (ID, TASK_RECORD_ID, FORM_ITEM_ID, 
+      CONTENT_INT, CONTENT_STRING, CONTENT_TIMESTAMP, 
+      PASS_FLAG, REMARKS, CONTENT, 
+      FILE_IDS)
+    values (#{id,jdbcType=VARCHAR}, #{taskRecordId,jdbcType=VARCHAR}, #{formItemId,jdbcType=VARCHAR}, 
+      #{contentInt,jdbcType=DECIMAL}, #{contentString,jdbcType=VARCHAR}, #{contentTimestamp,jdbcType=TIMESTAMP}, 
+      #{passFlag,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{fileIds,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sic.entity.ChItemRecord">
+    insert into CH_ITEM_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="taskRecordId != null">
+        TASK_RECORD_ID,
+      </if>
+      <if test="formItemId != null">
+        FORM_ITEM_ID,
+      </if>
+      <if test="contentInt != null">
+        CONTENT_INT,
+      </if>
+      <if test="contentString != null">
+        CONTENT_STRING,
+      </if>
+      <if test="contentTimestamp != null">
+        CONTENT_TIMESTAMP,
+      </if>
+      <if test="passFlag != null">
+        PASS_FLAG,
+      </if>
+      <if test="remarks != null">
+        REMARKS,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+      <if test="fileIds != null">
+        FILE_IDS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="taskRecordId != null">
+        #{taskRecordId,jdbcType=VARCHAR},
+      </if>
+      <if test="formItemId != null">
+        #{formItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="contentInt != null">
+        #{contentInt,jdbcType=DECIMAL},
+      </if>
+      <if test="contentString != null">
+        #{contentString,jdbcType=VARCHAR},
+      </if>
+      <if test="contentTimestamp != null">
+        #{contentTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="passFlag != null">
+        #{passFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="fileIds != null">
+        #{fileIds,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sic.entity.ChItemRecord">
+    update CH_ITEM_RECORD
+    <set>
+      <if test="taskRecordId != null">
+        TASK_RECORD_ID = #{taskRecordId,jdbcType=VARCHAR},
+      </if>
+      <if test="formItemId != null">
+        FORM_ITEM_ID = #{formItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="contentInt != null">
+        CONTENT_INT = #{contentInt,jdbcType=DECIMAL},
+      </if>
+      <if test="contentString != null">
+        CONTENT_STRING = #{contentString,jdbcType=VARCHAR},
+      </if>
+      <if test="contentTimestamp != null">
+        CONTENT_TIMESTAMP = #{contentTimestamp,jdbcType=TIMESTAMP},
+      </if>
+      <if test="passFlag != null">
+        PASS_FLAG = #{passFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="fileIds != null">
+        FILE_IDS = #{fileIds,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sic.entity.ChItemRecord">
+    update CH_ITEM_RECORD
+    set TASK_RECORD_ID = #{taskRecordId,jdbcType=VARCHAR},
+      FORM_ITEM_ID = #{formItemId,jdbcType=VARCHAR},
+      CONTENT_INT = #{contentInt,jdbcType=DECIMAL},
+      CONTENT_STRING = #{contentString,jdbcType=VARCHAR},
+      CONTENT_TIMESTAMP = #{contentTimestamp,jdbcType=TIMESTAMP},
+      PASS_FLAG = #{passFlag,jdbcType=VARCHAR},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      FILE_IDS = #{fileIds,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

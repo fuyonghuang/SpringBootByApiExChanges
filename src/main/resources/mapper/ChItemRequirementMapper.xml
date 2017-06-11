@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sic.mapper.ChItemRequirementMapper">
+  <resultMap id="BaseResultMap" type="com.sic.entity.ChItemRequirement">
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="TASK_ID" jdbcType="VARCHAR" property="taskId" />
+    <result column="FORM_ITEM_ID" jdbcType="VARCHAR" property="formItemId" />
+    <result column="REQUIRED" jdbcType="DECIMAL" property="required" />
+    <result column="METHOD" jdbcType="DECIMAL" property="method" />
+    <result column="DEFAULT_ANSWER" jdbcType="VARCHAR" property="defaultAnswer" />
+    <result column="RANGE_RULE" jdbcType="DECIMAL" property="rangeRule" />
+    <result column="RANGE_LNUMBER" jdbcType="DECIMAL" property="rangeLnumber" />
+    <result column="RANGE_RNUMBER" jdbcType="DECIMAL" property="rangeRnumber" />
+    <result column="RANGE_LTIME" jdbcType="TIMESTAMP" property="rangeLtime" />
+    <result column="RANGE_RTIME" jdbcType="TIMESTAMP" property="rangeRtime" />
+    <result column="RANGE_STRING" jdbcType="VARCHAR" property="rangeString" />
+    <result column="SCORE" jdbcType="DECIMAL" property="score" />
+    <result column="RANGE_LEVEL" jdbcType="DECIMAL" property="rangeLevel" />
+    <result column="ITEM_ID" jdbcType="VARCHAR" property="itemId" />
+    <result column="ALARM_LEVEL" jdbcType="DECIMAL" property="alarmLevel" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, TASK_ID, FORM_ITEM_ID,  REQUIRED, METHOD, DEFAULT_ANSWER, 
+      RANGE_RULE, RANGE_LNUMBER, RANGE_RNUMBER, 
+      RANGE_LTIME, RANGE_RTIME, RANGE_STRING, 
+      SCORE, RANGE_LEVEL, ITEM_ID, 
+      ALARM_LEVEL
+  </sql>
+  
+  <select  id="select" parameterType="com.sic.entity.ChTaskRecord" resultMap="BaseResultMap">
+  select
+  <include refid="Base_Col umn_List" />
+  from CH_ITEM_REQUIREMENT
+  where TASK_ID in (select 
+    ID
+    from CH_TASK
+    where ID in (select 
+    TASK_ID
+    from CH_TASK_RECORD
+    where OFFICE_ID=#{officeId,jdbcType=VARCHAR}
+     AND IS_SYNC='0' 
+     and STATUS=#{status,jdbcType=VARCHAR} 
+     and PROC_INS_ID  is not null))
+  </select>
+  
+  <insert id="insert" parameterType="com.sic.entity.ChItemRequirement">
+    insert into CH_ITEM_REQUIREMENT (ID, TASK_ID, FORM_ITEM_ID, 
+      REQUIRED, METHOD, DEFAULT_ANSWER, 
+      RANGE_RULE, RANGE_LNUMBER, RANGE_RNUMBER, 
+      RANGE_LTIME, RANGE_RTIME, RANGE_STRING, 
+      SCORE, RANGE_LEVEL, ITEM_ID, 
+      ALARM_LEVEL)
+    values (#{id,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR}, #{formItemId,jdbcType=VARCHAR},
+      #{required,jdbcType=DECIMAL}, #{method,jdbcType=DECIMAL}, #{defaultAnswer,jdbcType=VARCHAR},
+      #{rangeRule,jdbcType=DECIMAL}, #{rangeLnumber,jdbcType=DECIMAL}, #{rangeRnumber,jdbcType=DECIMAL}, 
+      #{rangeLtime,jdbcType=TIMESTAMP}, #{rangeRtime,jdbcType=TIMESTAMP}, #{rangeString,jdbcType=VARCHAR},
+      #{score,jdbcType=DECIMAL}, #{rangeLevel,jdbcType=DECIMAL}, #{itemId,jdbcType=VARCHAR},
+      #{alarmLevel,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sic.entity.ChItemRequirement">
+    insert into CH_ITEM_REQUIREMENT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="taskId != null">
+        TASK_ID,
+      </if>
+      <if test="formItemId != null">
+        FORM_ITEM_ID,
+      </if>
+      <if test="required != null">
+        REQUIRED,
+      </if>
+      <if test="method != null">
+        METHOD,
+      </if>
+      <if test="defaultAnswer != null">
+        DEFAULT_ANSWER,
+      </if>
+      <if test="rangeRule != null">
+        RANGE_RULE,
+      </if>
+      <if test="rangeLnumber != null">
+        RANGE_LNUMBER,
+      </if>
+      <if test="rangeRnumber != null">
+        RANGE_RNUMBER,
+      </if>
+      <if test="rangeLtime != null">
+        RANGE_LTIME,
+      </if>
+      <if test="rangeRtime != null">
+        RANGE_RTIME,
+      </if>
+      <if test="rangeString != null">
+        RANGE_STRING,
+      </if>
+      <if test="score != null">
+        SCORE,
+      </if>
+      <if test="rangeLevel != null">
+        RANGE_LEVEL,
+      </if>
+      <if test="itemId != null">
+        ITEM_ID,
+      </if>
+      <if test="alarmLevel != null">
+        ALARM_LEVEL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="formItemId != null">
+        #{formItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="required != null">
+        #{required,jdbcType=DECIMAL},
+      </if>
+      <if test="method != null">
+        #{method,jdbcType=DECIMAL},
+      </if>
+      <if test="defaultAnswer != null">
+        #{defaultAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="rangeRule != null">
+        #{rangeRule,jdbcType=DECIMAL},
+      </if>
+      <if test="rangeLnumber != null">
+        #{rangeLnumber,jdbcType=DECIMAL},
+      </if>
+      <if test="rangeRnumber != null">
+        #{rangeRnumber,jdbcType=DECIMAL},
+      </if>
+      <if test="rangeLtime != null">
+        #{rangeLtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rangeRtime != null">
+        #{rangeRtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rangeString != null">
+        #{rangeString,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="rangeLevel != null">
+        #{rangeLevel,jdbcType=DECIMAL},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmLevel != null">
+        #{alarmLevel,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+</mapper>

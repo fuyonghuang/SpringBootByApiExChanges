@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sic.mapper.ChFormItemMapper">
+  <resultMap id="BaseResultMap" type="com.sic.entity.ChFormItem">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="FORM_ID" jdbcType="VARCHAR" property="formId" />
+    <result column="ITEM_ID" jdbcType="VARCHAR" property="itemId" />
+    <result column="NUM" jdbcType="DECIMAL" property="num" />
+    <result column="ITEM_REQUIREMENT_ID" jdbcType="VARCHAR" property="itemRequirementId" />
+    <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag" />
+    <result column="SYSTEM_FLAG" jdbcType="VARCHAR" property="systemFlag" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, FORM_ID, ITEM_ID, NUM, ITEM_REQUIREMENT_ID, DEL_FLAG, SYSTEM_FLAG
+  </sql>
+  <select id="select" parameterType="com.sic.entity.ChTaskRecord" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CH_FORM_ITEM
+    where ID in(SELECT FORM_item_id FROM CH_ITEM_RECORD WHERE TASK_RECORD_ID in (select 
+    ID
+    from CH_TASK_RECORD
+    where OFFICE_ID=#{officeId,jdbcType=VARCHAR}
+     AND IS_SYNC='0' 
+     and STATUS=#{status,jdbcType=VARCHAR} 
+     and PROC_INS_ID  is not null))
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Object">
+    delete from CH_FORM_ITEM
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sic.entity.ChFormItem">
+    insert into CH_FORM_ITEM (ID, FORM_ID, ITEM_ID, 
+      NUM, ITEM_REQUIREMENT_ID, DEL_FLAG, 
+      SYSTEM_FLAG)
+    values (#{id,jdbcType=VARCHAR}, #{formId,jdbcType=VARCHAR}, #{itemId,jdbcType=VARCHAR}, 
+      #{num,jdbcType=DECIMAL}, #{itemRequirementId,jdbcType=VARCHAR}, #{delFlag,jdbcType=VARCHAR}, 
+      #{systemFlag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sic.entity.ChFormItem">
+    insert into CH_FORM_ITEM
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="formId != null">
+        FORM_ID,
+      </if>
+      <if test="itemId != null">
+        ITEM_ID,
+      </if>
+      <if test="num != null">
+        NUM,
+      </if>
+      <if test="itemRequirementId != null">
+        ITEM_REQUIREMENT_ID,
+      </if>
+      <if test="delFlag != null">
+        DEL_FLAG,
+      </if>
+      <if test="systemFlag != null">
+        SYSTEM_FLAG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="formId != null">
+        #{formId,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=DECIMAL},
+      </if>
+      <if test="itemRequirementId != null">
+        #{itemRequirementId,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="systemFlag != null">
+        #{systemFlag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sic.entity.ChFormItem">
+    update CH_FORM_ITEM
+    <set>
+      <if test="formId != null">
+        FORM_ID = #{formId,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null">
+        ITEM_ID = #{itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null">
+        NUM = #{num,jdbcType=DECIMAL},
+      </if>
+      <if test="itemRequirementId != null">
+        ITEM_REQUIREMENT_ID = #{itemRequirementId,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        DEL_FLAG = #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="systemFlag != null">
+        SYSTEM_FLAG = #{systemFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sic.entity.ChFormItem">
+    update CH_FORM_ITEM
+    set FORM_ID = #{formId,jdbcType=VARCHAR},
+      ITEM_ID = #{itemId,jdbcType=VARCHAR},
+      NUM = #{num,jdbcType=DECIMAL},
+      ITEM_REQUIREMENT_ID = #{itemRequirementId,jdbcType=VARCHAR},
+      DEL_FLAG = #{delFlag,jdbcType=VARCHAR},
+      SYSTEM_FLAG = #{systemFlag,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM CH_FORM_ITEM
+    WHERE  ID=#{id,jdbcType=VARCHAR}
+  </select>
+</mapper>

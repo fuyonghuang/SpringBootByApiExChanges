@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sic.mapper.ChFormMapper">
+  <resultMap id="BaseResultMap" type="com.sic.entity.ChForm">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CH_FORM_ID" jdbcType="VARCHAR" property="chFormId" />
+    <result column="LOGICAL_TYPE" jdbcType="DECIMAL" property="logicalType" />
+    <result column="TYPE" jdbcType="DECIMAL" property="type" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="INTRODUCTION" jdbcType="VARCHAR" property="introduction" />
+    <result column="REMARK_FLAG" jdbcType="VARCHAR" property="remarkFlag" />
+    <result column="VISIBLE_LEVEL" jdbcType="DECIMAL" property="visibleLevel" />
+    <result column="EDIT_LEVEL" jdbcType="DECIMAL" property="editLevel" />
+    <result column="VISIBLE_FLAG" jdbcType="VARCHAR" property="visibleFlag" />
+    <result column="NEW_FLAG" jdbcType="VARCHAR" property="newFlag" />
+    <result column="AUDIT_BY" jdbcType="VARCHAR" property="auditBy" />
+    <result column="AUDIT_DATE" jdbcType="TIMESTAMP" property="auditDate" />
+    <result column="AUDIT_OPINION" jdbcType="VARCHAR" property="auditOpinion" />
+    <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+    <result column="CREATE_OFFICE_ID" jdbcType="VARCHAR" property="createOfficeId" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy" />
+    <result column="UPDATE_OFFICE_ID" jdbcType="VARCHAR" property="updateOfficeId" />
+    <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
+    <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag" />
+    <result column="SYSTEM_FLAG" jdbcType="VARCHAR" property="systemFlag" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="PROC_INS_ID" jdbcType="VARCHAR" property="procInsId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CH_FORM_ID, LOGICAL_TYPE, TYPE, NAME, INTRODUCTION, REMARK_FLAG, VISIBLE_LEVEL, 
+    EDIT_LEVEL, VISIBLE_FLAG, NEW_FLAG, AUDIT_BY, AUDIT_DATE, AUDIT_OPINION, CREATE_BY, 
+    CREATE_OFFICE_ID, CREATE_DATE, UPDATE_BY, UPDATE_OFFICE_ID, UPDATE_DATE, REMARKS, 
+    DEL_FLAG, SYSTEM_FLAG, STATUS, PROC_INS_ID
+  </sql>
+  <select id="select" parameterType="com.sic.entity.ChTaskRecord" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CH_FORM
+    where ID in ( select 
+    FILL_FORM_ID
+    from CH_TASK
+    where ID in (select 
+    TASK_ID
+    from CH_TASK_RECORD
+    where OFFICE_ID=#{officeId,jdbcType=VARCHAR}
+     AND IS_SYNC='0' 
+     and STATUS=#{status,jdbcType=VARCHAR} 
+     and PROC_INS_ID  is not null))
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Object">
+    delete from CH_FORM
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sic.entity.ChForm">
+    insert into CH_FORM (ID, CH_FORM_ID, LOGICAL_TYPE, 
+      TYPE, NAME, INTRODUCTION, 
+      REMARK_FLAG, VISIBLE_LEVEL, EDIT_LEVEL, 
+      VISIBLE_FLAG, NEW_FLAG, AUDIT_BY, 
+      AUDIT_DATE, AUDIT_OPINION, CREATE_BY, 
+      CREATE_OFFICE_ID, CREATE_DATE, UPDATE_BY, 
+      UPDATE_OFFICE_ID, UPDATE_DATE, REMARKS, 
+      DEL_FLAG, SYSTEM_FLAG, STATUS, 
+      PROC_INS_ID)
+    values (#{id,jdbcType=VARCHAR}, #{chFormId,jdbcType=VARCHAR}, #{logicalType,jdbcType=DECIMAL}, 
+      #{type,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, 
+      #{remarkFlag,jdbcType=VARCHAR}, #{visibleLevel,jdbcType=DECIMAL}, #{editLevel,jdbcType=DECIMAL}, 
+      #{visibleFlag,jdbcType=VARCHAR}, #{newFlag,jdbcType=VARCHAR}, #{auditBy,jdbcType=VARCHAR}, 
+      #{auditDate,jdbcType=TIMESTAMP}, #{auditOpinion,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
+      #{createOfficeId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, 
+      #{updateOfficeId,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, 
+      #{delFlag,jdbcType=VARCHAR}, #{systemFlag,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, 
+      #{procInsId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sic.entity.ChForm">
+    insert into CH_FORM
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="chFormId != null">
+        CH_FORM_ID,
+      </if>
+      <if test="logicalType != null">
+        LOGICAL_TYPE,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="introduction != null">
+        INTRODUCTION,
+      </if>
+      <if test="remarkFlag != null">
+        REMARK_FLAG,
+      </if>
+      <if test="visibleLevel != null">
+        VISIBLE_LEVEL,
+      </if>
+      <if test="editLevel != null">
+        EDIT_LEVEL,
+      </if>
+      <if test="visibleFlag != null">
+        VISIBLE_FLAG,
+      </if>
+      <if test="newFlag != null">
+        NEW_FLAG,
+      </if>
+      <if test="auditBy != null">
+        AUDIT_BY,
+      </if>
+      <if test="auditDate != null">
+        AUDIT_DATE,
+      </if>
+      <if test="auditOpinion != null">
+        AUDIT_OPINION,
+      </if>
+      <if test="createBy != null">
+        CREATE_BY,
+      </if>
+      <if test="createOfficeId != null">
+        CREATE_OFFICE_ID,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY,
+      </if>
+      <if test="updateOfficeId != null">
+        UPDATE_OFFICE_ID,
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE,
+      </if>
+      <if test="remarks != null">
+        REMARKS,
+      </if>
+      <if test="delFlag != null">
+        DEL_FLAG,
+      </if>
+      <if test="systemFlag != null">
+        SYSTEM_FLAG,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="procInsId != null">
+        PROC_INS_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="chFormId != null">
+        #{chFormId,jdbcType=VARCHAR},
+      </if>
+      <if test="logicalType != null">
+        #{logicalType,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null">
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="remarkFlag != null">
+        #{remarkFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="visibleLevel != null">
+        #{visibleLevel,jdbcType=DECIMAL},
+      </if>
+      <if test="editLevel != null">
+        #{editLevel,jdbcType=DECIMAL},
+      </if>
+      <if test="visibleFlag != null">
+        #{visibleFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="newFlag != null">
+        #{newFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="auditBy != null">
+        #{auditBy,jdbcType=VARCHAR},
+      </if>
+      <if test="auditDate != null">
+        #{auditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditOpinion != null">
+        #{auditOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createOfficeId != null">
+        #{createOfficeId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOfficeId != null">
+        #{updateOfficeId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="systemFlag != null">
+        #{systemFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="procInsId != null">
+        #{procInsId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sic.entity.ChForm">
+    update CH_FORM
+    <set>
+      <if test="chFormId != null">
+        CH_FORM_ID = #{chFormId,jdbcType=VARCHAR},
+      </if>
+      <if test="logicalType != null">
+        LOGICAL_TYPE = #{logicalType,jdbcType=DECIMAL},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null">
+        INTRODUCTION = #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="remarkFlag != null">
+        REMARK_FLAG = #{remarkFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="visibleLevel != null">
+        VISIBLE_LEVEL = #{visibleLevel,jdbcType=DECIMAL},
+      </if>
+      <if test="editLevel != null">
+        EDIT_LEVEL = #{editLevel,jdbcType=DECIMAL},
+      </if>
+      <if test="visibleFlag != null">
+        VISIBLE_FLAG = #{visibleFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="newFlag != null">
+        NEW_FLAG = #{newFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="auditBy != null">
+        AUDIT_BY = #{auditBy,jdbcType=VARCHAR},
+      </if>
+      <if test="auditDate != null">
+        AUDIT_DATE = #{auditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditOpinion != null">
+        AUDIT_OPINION = #{auditOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createOfficeId != null">
+        CREATE_OFFICE_ID = #{createOfficeId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOfficeId != null">
+        UPDATE_OFFICE_ID = #{updateOfficeId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        DEL_FLAG = #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="systemFlag != null">
+        SYSTEM_FLAG = #{systemFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="procInsId != null">
+        PROC_INS_ID = #{procInsId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sic.entity.ChForm">
+    update CH_FORM
+    set CH_FORM_ID = #{chFormId,jdbcType=VARCHAR},
+      LOGICAL_TYPE = #{logicalType,jdbcType=DECIMAL},
+      TYPE = #{type,jdbcType=DECIMAL},
+      NAME = #{name,jdbcType=VARCHAR},
+      INTRODUCTION = #{introduction,jdbcType=VARCHAR},
+      REMARK_FLAG = #{remarkFlag,jdbcType=VARCHAR},
+      VISIBLE_LEVEL = #{visibleLevel,jdbcType=DECIMAL},
+      EDIT_LEVEL = #{editLevel,jdbcType=DECIMAL},
+      VISIBLE_FLAG = #{visibleFlag,jdbcType=VARCHAR},
+      NEW_FLAG = #{newFlag,jdbcType=VARCHAR},
+      AUDIT_BY = #{auditBy,jdbcType=VARCHAR},
+      AUDIT_DATE = #{auditDate,jdbcType=TIMESTAMP},
+      AUDIT_OPINION = #{auditOpinion,jdbcType=VARCHAR},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      CREATE_OFFICE_ID = #{createOfficeId,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      UPDATE_OFFICE_ID = #{updateOfficeId,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      DEL_FLAG = #{delFlag,jdbcType=VARCHAR},
+      SYSTEM_FLAG = #{systemFlag,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      PROC_INS_ID = #{procInsId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+    select
+    <include refid="Base_Column_List" />
+    from CH_FORM
+    where ID=#{id,jdbcType=VARCHAR}
+  </select>
+
+
+</mapper>

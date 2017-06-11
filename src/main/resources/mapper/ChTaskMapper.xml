@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sic.mapper.ChTaskMapper">
+  <resultMap id="BaseResultMap" type="com.sic.entity.ChTask">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CH_TASK_ID" jdbcType="VARCHAR" property="chTaskId" />
+    <result column="SUB_FLAG" jdbcType="VARCHAR" property="subFlag" />
+    <result column="SUB_NUM" jdbcType="DECIMAL" property="subNum" />
+    <result column="SUPER_ID" jdbcType="VARCHAR" property="superId" />
+    <result column="PARENT_ID" jdbcType="VARCHAR" property="parentId" />
+    <result column="TASK_RECORD_ID" jdbcType="VARCHAR" property="taskRecordId" />
+    <result column="TYPE" jdbcType="DECIMAL" property="type" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="FILL_FORM_ID" jdbcType="VARCHAR" property="fillFormId" />
+    <result column="STATISTICS_FORM_ID" jdbcType="VARCHAR" property="statisticsFormId" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="FILE_IDS" jdbcType="VARCHAR" property="fileIds" />
+    <result column="FILLER_TYPE" jdbcType="DECIMAL" property="fillerType" />
+    <result column="START_DATE" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="FINISH_DATE" jdbcType="TIMESTAMP" property="finishDate" />
+    <result column="FREQUENCY_NUM" jdbcType="DECIMAL" property="frequencyNum" />
+    <result column="FREQUENCY_UNIT" jdbcType="DECIMAL" property="frequencyUnit" />
+    <result column="DURATION_NUM" jdbcType="DECIMAL" property="durationNum" />
+    <result column="DURATION_UNIT" jdbcType="DECIMAL" property="durationUnit" />
+    <result column="INFORM_DATE" jdbcType="TIMESTAMP" property="informDate" />
+    <result column="AUDIT_BY" jdbcType="VARCHAR" property="auditBy" />
+    <result column="AUDIT_DATE" jdbcType="TIMESTAMP" property="auditDate" />
+    <result column="AUDIT_OPINION" jdbcType="VARCHAR" property="auditOpinion" />
+    <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+    <result column="CREATE_OFFICE_ID" jdbcType="VARCHAR" property="createOfficeId" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy" />
+    <result column="UPDATE_OFFICE_ID" jdbcType="VARCHAR" property="updateOfficeId" />
+    <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
+    <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag" />
+    <result column="SYSTEM_FLAG" jdbcType="VARCHAR" property="systemFlag" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="PROC_INS_ID" jdbcType="VARCHAR" property="procInsId" />
+    <result column="REFORM_NUMBER" jdbcType="VARCHAR" property="reformNumber" />
+    <result column="NEXT_START_DATE" jdbcType="VARCHAR" property="nextStartDate" />
+    <result column="NEXT_FINISH_DATE" jdbcType="VARCHAR" property="nextFinishDate" />
+    <result column="AUDIT_LEVEL" jdbcType="DECIMAL" property="auditLevel" />
+    <result column="AUTO_AUDIT_NUM" jdbcType="DECIMAL" property="autoAuditNum" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CH_TASK_ID, SUB_FLAG, SUB_NUM, SUPER_ID, PARENT_ID, TASK_RECORD_ID, TYPE, NAME, 
+    FILL_FORM_ID, STATISTICS_FORM_ID, CONTENT, FILE_IDS, FILLER_TYPE, START_DATE, FINISH_DATE, 
+    FREQUENCY_NUM, FREQUENCY_UNIT, DURATION_NUM, DURATION_UNIT, INFORM_DATE, AUDIT_BY, 
+    AUDIT_DATE, AUDIT_OPINION, CREATE_BY, CREATE_OFFICE_ID, CREATE_DATE, UPDATE_BY, UPDATE_OFFICE_ID, 
+    UPDATE_DATE, REMARKS, DEL_FLAG, SYSTEM_FLAG, STATUS, PROC_INS_ID, REFORM_NUMBER, 
+    NEXT_START_DATE, NEXT_FINISH_DATE, AUDIT_LEVEL, AUTO_AUDIT_NUM
+  </sql>
+  <select id="select" parameterType="com.sic.entity.ChTaskRecord" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CH_TASK
+    where ID in (select 
+    TASK_ID
+    from CH_TASK_RECORD
+    where OFFICE_ID=#{officeId,jdbcType=VARCHAR}
+     AND IS_SYNC='0' 
+     and STATUS=#{status,jdbcType=VARCHAR} 
+     and PROC_INS_ID  is not null)
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Object">
+    delete from CH_TASK
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sic.entity.ChTask">
+    insert into CH_TASK (ID, CH_TASK_ID, SUB_FLAG, 
+      SUB_NUM, SUPER_ID, PARENT_ID, 
+      TASK_RECORD_ID, TYPE, NAME, 
+      FILL_FORM_ID, STATISTICS_FORM_ID, CONTENT, 
+      FILE_IDS, FILLER_TYPE, START_DATE, 
+      FINISH_DATE, FREQUENCY_NUM, FREQUENCY_UNIT, 
+      DURATION_NUM, DURATION_UNIT, INFORM_DATE, 
+      AUDIT_BY, AUDIT_DATE, AUDIT_OPINION, 
+      CREATE_BY, CREATE_OFFICE_ID, CREATE_DATE, 
+      UPDATE_BY, UPDATE_OFFICE_ID, UPDATE_DATE, 
+      REMARKS, DEL_FLAG, SYSTEM_FLAG, 
+      STATUS, PROC_INS_ID, REFORM_NUMBER, 
+      NEXT_START_DATE, NEXT_FINISH_DATE, AUDIT_LEVEL, 
+      AUTO_AUDIT_NUM)
+    values (#{id,jdbcType=VARCHAR}, #{chTaskId,jdbcType=VARCHAR}, #{subFlag,jdbcType=VARCHAR}, 
+      #{subNum,jdbcType=DECIMAL}, #{superId,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, 
+      #{taskRecordId,jdbcType=VARCHAR}, #{type,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, 
+      #{fillFormId,jdbcType=VARCHAR}, #{statisticsFormId,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{fileIds,jdbcType=VARCHAR}, #{fillerType,jdbcType=DECIMAL}, #{startDate,jdbcType=TIMESTAMP}, 
+      #{finishDate,jdbcType=TIMESTAMP}, #{frequencyNum,jdbcType=DECIMAL}, #{frequencyUnit,jdbcType=DECIMAL}, 
+      #{durationNum,jdbcType=DECIMAL}, #{durationUnit,jdbcType=DECIMAL}, #{informDate,jdbcType=TIMESTAMP}, 
+      #{auditBy,jdbcType=VARCHAR}, #{auditDate,jdbcType=TIMESTAMP}, #{auditOpinion,jdbcType=VARCHAR}, 
+      #{createBy,jdbcType=VARCHAR}, #{createOfficeId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateOfficeId,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR}, #{delFlag,jdbcType=VARCHAR}, #{systemFlag,jdbcType=VARCHAR}, 
+      #{status,jdbcType=DECIMAL}, #{procInsId,jdbcType=VARCHAR}, #{reformNumber,jdbcType=VARCHAR}, 
+      #{nextStartDate,jdbcType=VARCHAR}, #{nextFinishDate,jdbcType=VARCHAR}, #{auditLevel,jdbcType=DECIMAL}, 
+      #{autoAuditNum,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sic.entity.ChTask">
+    insert into CH_TASK
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="chTaskId != null">
+        CH_TASK_ID,
+      </if>
+      <if test="subFlag != null">
+        SUB_FLAG,
+      </if>
+      <if test="subNum != null">
+        SUB_NUM,
+      </if>
+      <if test="superId != null">
+        SUPER_ID,
+      </if>
+      <if test="parentId != null">
+        PARENT_ID,
+      </if>
+      <if test="taskRecordId != null">
+        TASK_RECORD_ID,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="fillFormId != null">
+        FILL_FORM_ID,
+      </if>
+      <if test="statisticsFormId != null">
+        STATISTICS_FORM_ID,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+      <if test="fileIds != null">
+        FILE_IDS,
+      </if>
+      <if test="fillerType != null">
+        FILLER_TYPE,
+      </if>
+      <if test="startDate != null">
+        START_DATE,
+      </if>
+      <if test="finishDate != null">
+        FINISH_DATE,
+      </if>
+      <if test="frequencyNum != null">
+        FREQUENCY_NUM,
+      </if>
+      <if test="frequencyUnit != null">
+        FREQUENCY_UNIT,
+      </if>
+      <if test="durationNum != null">
+        DURATION_NUM,
+      </if>
+      <if test="durationUnit != null">
+        DURATION_UNIT,
+      </if>
+      <if test="informDate != null">
+        INFORM_DATE,
+      </if>
+      <if test="auditBy != null">
+        AUDIT_BY,
+      </if>
+      <if test="auditDate != null">
+        AUDIT_DATE,
+      </if>
+      <if test="auditOpinion != null">
+        AUDIT_OPINION,
+      </if>
+      <if test="createBy != null">
+        CREATE_BY,
+      </if>
+      <if test="createOfficeId != null">
+        CREATE_OFFICE_ID,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY,
+      </if>
+      <if test="updateOfficeId != null">
+        UPDATE_OFFICE_ID,
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE,
+      </if>
+      <if test="remarks != null">
+        REMARKS,
+      </if>
+      <if test="delFlag != null">
+        DEL_FLAG,
+      </if>
+      <if test="systemFlag != null">
+        SYSTEM_FLAG,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="procInsId != null">
+        PROC_INS_ID,
+      </if>
+      <if test="reformNumber != null">
+        REFORM_NUMBER,
+      </if>
+      <if test="nextStartDate != null">
+        NEXT_START_DATE,
+      </if>
+      <if test="nextFinishDate != null">
+        NEXT_FINISH_DATE,
+      </if>
+      <if test="auditLevel != null">
+        AUDIT_LEVEL,
+      </if>
+      <if test="autoAuditNum != null">
+        AUTO_AUDIT_NUM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="chTaskId != null">
+        #{chTaskId,jdbcType=VARCHAR},
+      </if>
+      <if test="subFlag != null">
+        #{subFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="subNum != null">
+        #{subNum,jdbcType=DECIMAL},
+      </if>
+      <if test="superId != null">
+        #{superId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskRecordId != null">
+        #{taskRecordId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="fillFormId != null">
+        #{fillFormId,jdbcType=VARCHAR},
+      </if>
+      <if test="statisticsFormId != null">
+        #{statisticsFormId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="fileIds != null">
+        #{fileIds,jdbcType=VARCHAR},
+      </if>
+      <if test="fillerType != null">
+        #{fillerType,jdbcType=DECIMAL},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishDate != null">
+        #{finishDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="frequencyNum != null">
+        #{frequencyNum,jdbcType=DECIMAL},
+      </if>
+      <if test="frequencyUnit != null">
+        #{frequencyUnit,jdbcType=DECIMAL},
+      </if>
+      <if test="durationNum != null">
+        #{durationNum,jdbcType=DECIMAL},
+      </if>
+      <if test="durationUnit != null">
+        #{durationUnit,jdbcType=DECIMAL},
+      </if>
+      <if test="informDate != null">
+        #{informDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditBy != null">
+        #{auditBy,jdbcType=VARCHAR},
+      </if>
+      <if test="auditDate != null">
+        #{auditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditOpinion != null">
+        #{auditOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createOfficeId != null">
+        #{createOfficeId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOfficeId != null">
+        #{updateOfficeId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="systemFlag != null">
+        #{systemFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="procInsId != null">
+        #{procInsId,jdbcType=VARCHAR},
+      </if>
+      <if test="reformNumber != null">
+        #{reformNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="nextStartDate != null">
+        #{nextStartDate,jdbcType=VARCHAR},
+      </if>
+      <if test="nextFinishDate != null">
+        #{nextFinishDate,jdbcType=VARCHAR},
+      </if>
+      <if test="auditLevel != null">
+        #{auditLevel,jdbcType=DECIMAL},
+      </if>
+      <if test="autoAuditNum != null">
+        #{autoAuditNum,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sic.entity.ChTask">
+    update CH_TASK
+    <set>
+      <if test="chTaskId != null">
+        CH_TASK_ID = #{chTaskId,jdbcType=VARCHAR},
+      </if>
+      <if test="subFlag != null">
+        SUB_FLAG = #{subFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="subNum != null">
+        SUB_NUM = #{subNum,jdbcType=DECIMAL},
+      </if>
+      <if test="superId != null">
+        SUPER_ID = #{superId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null">
+        PARENT_ID = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskRecordId != null">
+        TASK_RECORD_ID = #{taskRecordId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="fillFormId != null">
+        FILL_FORM_ID = #{fillFormId,jdbcType=VARCHAR},
+      </if>
+      <if test="statisticsFormId != null">
+        STATISTICS_FORM_ID = #{statisticsFormId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="fileIds != null">
+        FILE_IDS = #{fileIds,jdbcType=VARCHAR},
+      </if>
+      <if test="fillerType != null">
+        FILLER_TYPE = #{fillerType,jdbcType=DECIMAL},
+      </if>
+      <if test="startDate != null">
+        START_DATE = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishDate != null">
+        FINISH_DATE = #{finishDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="frequencyNum != null">
+        FREQUENCY_NUM = #{frequencyNum,jdbcType=DECIMAL},
+      </if>
+      <if test="frequencyUnit != null">
+        FREQUENCY_UNIT = #{frequencyUnit,jdbcType=DECIMAL},
+      </if>
+      <if test="durationNum != null">
+        DURATION_NUM = #{durationNum,jdbcType=DECIMAL},
+      </if>
+      <if test="durationUnit != null">
+        DURATION_UNIT = #{durationUnit,jdbcType=DECIMAL},
+      </if>
+      <if test="informDate != null">
+        INFORM_DATE = #{informDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditBy != null">
+        AUDIT_BY = #{auditBy,jdbcType=VARCHAR},
+      </if>
+      <if test="auditDate != null">
+        AUDIT_DATE = #{auditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditOpinion != null">
+        AUDIT_OPINION = #{auditOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createOfficeId != null">
+        CREATE_OFFICE_ID = #{createOfficeId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOfficeId != null">
+        UPDATE_OFFICE_ID = #{updateOfficeId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        DEL_FLAG = #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="systemFlag != null">
+        SYSTEM_FLAG = #{systemFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="procInsId != null">
+        PROC_INS_ID = #{procInsId,jdbcType=VARCHAR},
+      </if>
+      <if test="reformNumber != null">
+        REFORM_NUMBER = #{reformNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="nextStartDate != null">
+        NEXT_START_DATE = #{nextStartDate,jdbcType=VARCHAR},
+      </if>
+      <if test="nextFinishDate != null">
+        NEXT_FINISH_DATE = #{nextFinishDate,jdbcType=VARCHAR},
+      </if>
+      <if test="auditLevel != null">
+        AUDIT_LEVEL = #{auditLevel,jdbcType=DECIMAL},
+      </if>
+      <if test="autoAuditNum != null">
+        AUTO_AUDIT_NUM = #{autoAuditNum,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sic.entity.ChTask">
+    update CH_TASK
+    set CH_TASK_ID = #{chTaskId,jdbcType=VARCHAR},
+      SUB_FLAG = #{subFlag,jdbcType=VARCHAR},
+      SUB_NUM = #{subNum,jdbcType=DECIMAL},
+      SUPER_ID = #{superId,jdbcType=VARCHAR},
+      PARENT_ID = #{parentId,jdbcType=VARCHAR},
+      TASK_RECORD_ID = #{taskRecordId,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=DECIMAL},
+      NAME = #{name,jdbcType=VARCHAR},
+      FILL_FORM_ID = #{fillFormId,jdbcType=VARCHAR},
+      STATISTICS_FORM_ID = #{statisticsFormId,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      FILE_IDS = #{fileIds,jdbcType=VARCHAR},
+      FILLER_TYPE = #{fillerType,jdbcType=DECIMAL},
+      START_DATE = #{startDate,jdbcType=TIMESTAMP},
+      FINISH_DATE = #{finishDate,jdbcType=TIMESTAMP},
+      FREQUENCY_NUM = #{frequencyNum,jdbcType=DECIMAL},
+      FREQUENCY_UNIT = #{frequencyUnit,jdbcType=DECIMAL},
+      DURATION_NUM = #{durationNum,jdbcType=DECIMAL},
+      DURATION_UNIT = #{durationUnit,jdbcType=DECIMAL},
+      INFORM_DATE = #{informDate,jdbcType=TIMESTAMP},
+      AUDIT_BY = #{auditBy,jdbcType=VARCHAR},
+      AUDIT_DATE = #{auditDate,jdbcType=TIMESTAMP},
+      AUDIT_OPINION = #{auditOpinion,jdbcType=VARCHAR},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      CREATE_OFFICE_ID = #{createOfficeId,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      UPDATE_OFFICE_ID = #{updateOfficeId,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      DEL_FLAG = #{delFlag,jdbcType=VARCHAR},
+      SYSTEM_FLAG = #{systemFlag,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      PROC_INS_ID = #{procInsId,jdbcType=VARCHAR},
+      REFORM_NUMBER = #{reformNumber,jdbcType=VARCHAR},
+      NEXT_START_DATE = #{nextStartDate,jdbcType=VARCHAR},
+      NEXT_FINISH_DATE = #{nextFinishDate,jdbcType=VARCHAR},
+      AUDIT_LEVEL = #{auditLevel,jdbcType=DECIMAL},
+      AUTO_AUDIT_NUM = #{autoAuditNum,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from CH_TASK
+    where ID
+    = #{id,jdbcType=VARCHAR}
+  </select>
+
+</mapper>
+
+

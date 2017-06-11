@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sic.mapper.ChTaskRecordMapper">
+  <resultMap id="BaseResultMap" type="com.sic.entity.ChTaskRecord">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CH_TASK_RECORD_ID" jdbcType="VARCHAR" property="chTaskRecordId" />
+    <result column="LOGICAL_TYPE" jdbcType="DECIMAL" property="logicalType" />
+    <result column="TASK_ID" jdbcType="VARCHAR" property="taskId" />
+    <result column="OFFICE_ID" jdbcType="VARCHAR" property="officeId" />
+    <result column="FILLER_ID" jdbcType="VARCHAR" property="fillerId" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="FILE_IDS" jdbcType="VARCHAR" property="fileIds" />
+    <result column="PASS_FLAG" jdbcType="VARCHAR" property="passFlag" />
+    <result column="SCORE" jdbcType="DECIMAL" property="score" />
+    <result column="UPLOAD_BY" jdbcType="VARCHAR" property="uploadBy" />
+    <result column="UPLOAD_OFFICE_ID" jdbcType="VARCHAR" property="uploadOfficeId" />
+    <result column="UPLOAD_DATE" jdbcType="TIMESTAMP" property="uploadDate" />
+    <result column="UPLOAD_POSITION" jdbcType="VARCHAR" property="uploadPosition" />
+    <result column="UPLOAD_TOOL" jdbcType="DECIMAL" property="uploadTool" />
+    <result column="DEVICE_NUMBER" jdbcType="VARCHAR" property="deviceNumber" />
+    <result column="READ_BY" jdbcType="VARCHAR" property="readBy" />
+    <result column="READ_DATE" jdbcType="TIMESTAMP" property="readDate" />
+    <result column="AUDIT_BY" jdbcType="VARCHAR" property="auditBy" />
+    <result column="AUDIT_DATE" jdbcType="TIMESTAMP" property="auditDate" />
+    <result column="AUDIT_OPINION" jdbcType="VARCHAR" property="auditOpinion" />
+    <result column="CREATE_BY" jdbcType="VARCHAR" property="createBy" />
+    <result column="CREATE_OFFICE_ID" jdbcType="VARCHAR" property="createOfficeId" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="UPDATE_BY" jdbcType="VARCHAR" property="updateBy" />
+    <result column="UPDATE_OFFICE_ID" jdbcType="VARCHAR" property="updateOfficeId" />
+    <result column="UPDATE_DATE" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
+    <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag" />
+    <result column="SYSTEM_FLAG" jdbcType="VARCHAR" property="systemFlag" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="PROC_INS_ID" jdbcType="VARCHAR" property="procInsId" />
+    <result column="REFORM_STATUS" jdbcType="DECIMAL" property="reformStatus" />
+    <result column="IS_SYNC" jdbcType="CHAR" property="isSync" />
+    <result column="IS_CITY" jdbcType="CHAR" property="isCity" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CH_TASK_RECORD_ID, LOGICAL_TYPE, TASK_ID, OFFICE_ID, FILLER_ID, CONTENT, FILE_IDS, 
+    PASS_FLAG, SCORE, UPLOAD_BY, UPLOAD_OFFICE_ID, UPLOAD_DATE, UPLOAD_POSITION, UPLOAD_TOOL, 
+    DEVICE_NUMBER, READ_BY, READ_DATE, AUDIT_BY, AUDIT_DATE, AUDIT_OPINION, CREATE_BY, 
+    CREATE_OFFICE_ID, CREATE_DATE, UPDATE_BY, UPDATE_OFFICE_ID, UPDATE_DATE, REMARKS, 
+    DEL_FLAG, SYSTEM_FLAG, STATUS, PROC_INS_ID, REFORM_STATUS, IS_SYNC, IS_CITY
+  </sql>
+  <select id="select" parameterType="com.sic.entity.ChTaskRecord" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CH_TASK_RECORD
+    where OFFICE_ID=#{officeId,jdbcType=VARCHAR}
+     AND IS_SYNC='0' 
+     and STATUS=#{status,jdbcType=VARCHAR} 
+     and PROC_INS_ID  is not null
+  </select>
+
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Object">
+    delete from CH_TASK_RECORD
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sic.entity.ChTaskRecord">
+    insert into CH_TASK_RECORD (ID, CH_TASK_RECORD_ID, LOGICAL_TYPE, 
+      TASK_ID, OFFICE_ID, FILLER_ID, 
+      CONTENT, FILE_IDS, PASS_FLAG, 
+      SCORE, UPLOAD_BY, UPLOAD_OFFICE_ID, 
+      UPLOAD_DATE, UPLOAD_POSITION, UPLOAD_TOOL, 
+      DEVICE_NUMBER, READ_BY, READ_DATE, 
+      AUDIT_BY, AUDIT_DATE, AUDIT_OPINION, 
+      CREATE_BY, CREATE_OFFICE_ID, CREATE_DATE, 
+      UPDATE_BY, UPDATE_OFFICE_ID, UPDATE_DATE, 
+      REMARKS, DEL_FLAG, SYSTEM_FLAG, 
+      STATUS, PROC_INS_ID, REFORM_STATUS, 
+      IS_SYNC, IS_CITY)
+    values (#{id,jdbcType=VARCHAR}, #{chTaskRecordId,jdbcType=VARCHAR}, #{logicalType,jdbcType=DECIMAL}, 
+      #{taskId,jdbcType=VARCHAR}, #{officeId,jdbcType=VARCHAR}, #{fillerId,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{fileIds,jdbcType=VARCHAR}, #{passFlag,jdbcType=VARCHAR}, 
+      #{score,jdbcType=DECIMAL}, #{uploadBy,jdbcType=VARCHAR}, #{uploadOfficeId,jdbcType=VARCHAR}, 
+      #{uploadDate,jdbcType=TIMESTAMP}, #{uploadPosition,jdbcType=VARCHAR}, #{uploadTool,jdbcType=DECIMAL}, 
+      #{deviceNumber,jdbcType=VARCHAR}, #{readBy,jdbcType=VARCHAR}, #{readDate,jdbcType=TIMESTAMP}, 
+      #{auditBy,jdbcType=VARCHAR}, #{auditDate,jdbcType=TIMESTAMP}, #{auditOpinion,jdbcType=VARCHAR}, 
+      #{createBy,jdbcType=VARCHAR}, #{createOfficeId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR}, #{updateOfficeId,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR}, #{delFlag,jdbcType=VARCHAR}, #{systemFlag,jdbcType=VARCHAR}, 
+      #{status,jdbcType=DECIMAL}, #{procInsId,jdbcType=VARCHAR}, #{reformStatus,jdbcType=DECIMAL}, 
+      #{isSync,jdbcType=CHAR}, #{isCity,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sic.entity.ChTaskRecord">
+    insert into CH_TASK_RECORD
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="chTaskRecordId != null">
+        CH_TASK_RECORD_ID,
+      </if>
+      <if test="logicalType != null">
+        LOGICAL_TYPE,
+      </if>
+      <if test="taskId != null">
+        TASK_ID,
+      </if>
+      <if test="officeId != null">
+        OFFICE_ID,
+      </if>
+      <if test="fillerId != null">
+        FILLER_ID,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+      <if test="fileIds != null">
+        FILE_IDS,
+      </if>
+      <if test="passFlag != null">
+        PASS_FLAG,
+      </if>
+      <if test="score != null">
+        SCORE,
+      </if>
+      <if test="uploadBy != null">
+        UPLOAD_BY,
+      </if>
+      <if test="uploadOfficeId != null">
+        UPLOAD_OFFICE_ID,
+      </if>
+      <if test="uploadDate != null">
+        UPLOAD_DATE,
+      </if>
+      <if test="uploadPosition != null">
+        UPLOAD_POSITION,
+      </if>
+      <if test="uploadTool != null">
+        UPLOAD_TOOL,
+      </if>
+      <if test="deviceNumber != null">
+        DEVICE_NUMBER,
+      </if>
+      <if test="readBy != null">
+        READ_BY,
+      </if>
+      <if test="readDate != null">
+        READ_DATE,
+      </if>
+      <if test="auditBy != null">
+        AUDIT_BY,
+      </if>
+      <if test="auditDate != null">
+        AUDIT_DATE,
+      </if>
+      <if test="auditOpinion != null">
+        AUDIT_OPINION,
+      </if>
+      <if test="createBy != null">
+        CREATE_BY,
+      </if>
+      <if test="createOfficeId != null">
+        CREATE_OFFICE_ID,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY,
+      </if>
+      <if test="updateOfficeId != null">
+        UPDATE_OFFICE_ID,
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE,
+      </if>
+      <if test="remarks != null">
+        REMARKS,
+      </if>
+      <if test="delFlag != null">
+        DEL_FLAG,
+      </if>
+      <if test="systemFlag != null">
+        SYSTEM_FLAG,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="procInsId != null">
+        PROC_INS_ID,
+      </if>
+      <if test="reformStatus != null">
+        REFORM_STATUS,
+      </if>
+      <if test="isSync != null">
+        IS_SYNC,
+      </if>
+      <if test="isCity != null">
+        IS_CITY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="chTaskRecordId != null">
+        #{chTaskRecordId,jdbcType=VARCHAR},
+      </if>
+      <if test="logicalType != null">
+        #{logicalType,jdbcType=DECIMAL},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="officeId != null">
+        #{officeId,jdbcType=VARCHAR},
+      </if>
+      <if test="fillerId != null">
+        #{fillerId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="fileIds != null">
+        #{fileIds,jdbcType=VARCHAR},
+      </if>
+      <if test="passFlag != null">
+        #{passFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="uploadBy != null">
+        #{uploadBy,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadOfficeId != null">
+        #{uploadOfficeId,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadDate != null">
+        #{uploadDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uploadPosition != null">
+        #{uploadPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadTool != null">
+        #{uploadTool,jdbcType=DECIMAL},
+      </if>
+      <if test="deviceNumber != null">
+        #{deviceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="readBy != null">
+        #{readBy,jdbcType=VARCHAR},
+      </if>
+      <if test="readDate != null">
+        #{readDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditBy != null">
+        #{auditBy,jdbcType=VARCHAR},
+      </if>
+      <if test="auditDate != null">
+        #{auditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditOpinion != null">
+        #{auditOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createOfficeId != null">
+        #{createOfficeId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOfficeId != null">
+        #{updateOfficeId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="systemFlag != null">
+        #{systemFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="procInsId != null">
+        #{procInsId,jdbcType=VARCHAR},
+      </if>
+      <if test="reformStatus != null">
+        #{reformStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="isSync != null">
+        #{isSync,jdbcType=CHAR},
+      </if>
+      <if test="isCity != null">
+        #{isCity,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sic.entity.ChTaskRecord">
+    update CH_TASK_RECORD
+    <set>
+      <if test="chTaskRecordId != null">
+        CH_TASK_RECORD_ID = #{chTaskRecordId,jdbcType=VARCHAR},
+      </if>
+      <if test="logicalType != null">
+        LOGICAL_TYPE = #{logicalType,jdbcType=DECIMAL},
+      </if>
+      <if test="taskId != null">
+        TASK_ID = #{taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="officeId != null">
+        OFFICE_ID = #{officeId,jdbcType=VARCHAR},
+      </if>
+      <if test="fillerId != null">
+        FILLER_ID = #{fillerId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="fileIds != null">
+        FILE_IDS = #{fileIds,jdbcType=VARCHAR},
+      </if>
+      <if test="passFlag != null">
+        PASS_FLAG = #{passFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        SCORE = #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="uploadBy != null">
+        UPLOAD_BY = #{uploadBy,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadOfficeId != null">
+        UPLOAD_OFFICE_ID = #{uploadOfficeId,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadDate != null">
+        UPLOAD_DATE = #{uploadDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uploadPosition != null">
+        UPLOAD_POSITION = #{uploadPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadTool != null">
+        UPLOAD_TOOL = #{uploadTool,jdbcType=DECIMAL},
+      </if>
+      <if test="deviceNumber != null">
+        DEVICE_NUMBER = #{deviceNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="readBy != null">
+        READ_BY = #{readBy,jdbcType=VARCHAR},
+      </if>
+      <if test="readDate != null">
+        READ_DATE = #{readDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditBy != null">
+        AUDIT_BY = #{auditBy,jdbcType=VARCHAR},
+      </if>
+      <if test="auditDate != null">
+        AUDIT_DATE = #{auditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditOpinion != null">
+        AUDIT_OPINION = #{auditOpinion,jdbcType=VARCHAR},
+      </if>
+      <if test="createBy != null">
+        CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createOfficeId != null">
+        CREATE_OFFICE_ID = #{createOfficeId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOfficeId != null">
+        UPDATE_OFFICE_ID = #{updateOfficeId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null">
+        REMARKS = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        DEL_FLAG = #{delFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="systemFlag != null">
+        SYSTEM_FLAG = #{systemFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="procInsId != null">
+        PROC_INS_ID = #{procInsId,jdbcType=VARCHAR},
+      </if>
+      <if test="reformStatus != null">
+        REFORM_STATUS = #{reformStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="isSync != null">
+        IS_SYNC = #{isSync,jdbcType=CHAR},
+      </if>
+      <if test="isCity != null">
+        IS_CITY = #{isCity,jdbcType=CHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sic.entity.ChTaskRecord">
+    update CH_TASK_RECORD
+    set CH_TASK_RECORD_ID = #{chTaskRecordId,jdbcType=VARCHAR},
+      LOGICAL_TYPE = #{logicalType,jdbcType=DECIMAL},
+      TASK_ID = #{taskId,jdbcType=VARCHAR},
+      OFFICE_ID = #{officeId,jdbcType=VARCHAR},
+      FILLER_ID = #{fillerId,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      FILE_IDS = #{fileIds,jdbcType=VARCHAR},
+      PASS_FLAG = #{passFlag,jdbcType=VARCHAR},
+      SCORE = #{score,jdbcType=DECIMAL},
+      UPLOAD_BY = #{uploadBy,jdbcType=VARCHAR},
+      UPLOAD_OFFICE_ID = #{uploadOfficeId,jdbcType=VARCHAR},
+      UPLOAD_DATE = #{uploadDate,jdbcType=TIMESTAMP},
+      UPLOAD_POSITION = #{uploadPosition,jdbcType=VARCHAR},
+      UPLOAD_TOOL = #{uploadTool,jdbcType=DECIMAL},
+      DEVICE_NUMBER = #{deviceNumber,jdbcType=VARCHAR},
+      READ_BY = #{readBy,jdbcType=VARCHAR},
+      READ_DATE = #{readDate,jdbcType=TIMESTAMP},
+      AUDIT_BY = #{auditBy,jdbcType=VARCHAR},
+      AUDIT_DATE = #{auditDate,jdbcType=TIMESTAMP},
+      AUDIT_OPINION = #{auditOpinion,jdbcType=VARCHAR},
+      CREATE_BY = #{createBy,jdbcType=VARCHAR},
+      CREATE_OFFICE_ID = #{createOfficeId,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_BY = #{updateBy,jdbcType=VARCHAR},
+      UPDATE_OFFICE_ID = #{updateOfficeId,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      REMARKS = #{remarks,jdbcType=VARCHAR},
+      DEL_FLAG = #{delFlag,jdbcType=VARCHAR},
+      SYSTEM_FLAG = #{systemFlag,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      PROC_INS_ID = #{procInsId,jdbcType=VARCHAR},
+      REFORM_STATUS = #{reformStatus,jdbcType=DECIMAL},
+      IS_SYNC = #{isSync,jdbcType=CHAR},
+      IS_CITY = #{isCity,jdbcType=CHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
